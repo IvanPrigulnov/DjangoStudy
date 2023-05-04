@@ -20,10 +20,14 @@ from django.urls import path, include
 
 from exoticanimals import settings
 
+from animals.views import pageNotFound
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('animals.urls'))
 ]
+
+handler404 = pageNotFound
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

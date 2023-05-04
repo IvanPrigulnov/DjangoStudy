@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from .models import *
 
 
@@ -17,21 +17,42 @@ menu = [{'title': 'О сайте', 'url_name': 'about'},
 
 def index(request):
     posts = Animals.objects.all()
-    return render(
-        request,
-        'animals/index.html',
-        {'posts': posts,
-         'menu': menu,
-         'title': 'Главная страница'
-         }
-    )
+    context = {'posts': posts,
+               'menu': menu,
+               'title': 'Главная страница'
+               }
+    return render(request, 'animals/index.html', context=context)
 
 
 def about(request):
-    return render(
-        request,
-        'animals/about.html',
-        {'menu': menu,
-         'title': 'О сайте'
-         }
-    )
+    context = {'menu': menu,
+               'title': 'О сайте'
+               }
+    return render(request, 'animals/about.html', context=context)
+
+
+def add_page(request):
+    context = {'menu': menu,
+               'title': 'Добавить статью'
+               }
+    return render(request, 'animals/add_page.html', context=context)
+
+
+def contact(request):
+    context = {'menu': menu,
+               'title': 'Контакты'
+               }
+    return render(request, 'animals/contact.html', context=context)
+
+
+def login(request):
+    context = {'menu': menu,
+               'title': 'Авторизация'
+               }
+    return render(request, 'animals/login.html', context=context)
+
+
+def pageNotFound(request, exception):
+    return HttpResponseNotFound('<h2>Упс :( '
+                                '<br>Кажется, страница где-то потерялась.'
+                                '<br>Или её не существует.</h2>')
