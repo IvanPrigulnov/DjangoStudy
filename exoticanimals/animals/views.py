@@ -8,15 +8,19 @@ def hello(request):
     return HttpResponse('Hi, guys!')
 
 
-menu = ['О сайте', 'Добавить статью', 'Обратная связь', 'Войти']
+menu = [{'title': 'О сайте', 'url_name': 'about'},
+        {'title': 'Добавить статью', 'url_name': 'add_page'},
+        {'title': 'Обратная связь', 'url_name': 'contact'},
+        {'title': 'Войти', 'url_name': 'login'}
+        ]
 
 
 def index(request):
-    post = Animals.objects.all()
+    posts = Animals.objects.all()
     return render(
         request,
         'animals/index.html',
-        {'post': post,
+        {'posts': posts,
          'menu': menu,
          'title': 'Главная страница'
          }
