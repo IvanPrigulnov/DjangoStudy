@@ -55,16 +55,15 @@ def show_post(request, post_id):
 
 def show_category(request, cat_id):
     posts = Animals.objects.filter(cat_id=cat_id)
-    cat = Category.objects.filter(id=cat_id)
 
     if len(posts) == 0:
-        raise Http404()
+        return HttpResponse('Скоро тут будет что-то интересное!')
+        # raise Http404()
 
     context = {'posts': posts,
                'menu': menu,
-               'title': f'Отображение по категориям - {cat[0].name}',
-               'cat_selected': cat_id
-               }
+               'title': f'Отображение по категориям - {posts[0].cat}',
+               'cat_selected': cat_id}
     return render(request, 'animals/index.html', context=context)
 
 
