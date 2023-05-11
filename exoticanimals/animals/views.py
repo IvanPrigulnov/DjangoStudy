@@ -64,6 +64,7 @@ def show_category(request, cat_id):
                'menu': menu,
                'title': f'Отображение по категориям - {posts[0].cat}',
                'cat_selected': cat_id}
+
     return render(request, 'animals/index.html', context=context)
 
 
