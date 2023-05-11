@@ -3,18 +3,10 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404
 from .models import *
 
 
-menu = [{'title': 'О сайте', 'url_name': 'about'},
-        {'title': 'Добавить статью', 'url_name': 'addpage'},
-        {'title': 'Обратная связь', 'url_name': 'contact'},
-        {'title': 'Войти', 'url_name': 'login'}
-        ]
-
-
 def index(request):
     posts = Animals.objects.all()
 
     context = {'posts': posts,
-               'menu': menu,
                'title': 'Главная страница',
                'cat_selected': 0
                }
@@ -22,30 +14,26 @@ def index(request):
 
 
 def about(request):
-    context = {'menu': menu,
-               'title': 'О сайте'
-               }
+    context = {'title': 'О сайте'}
+
     return render(request, 'animals/about.html', context=context)
 
 
 def add_page(request):
-    context = {'menu': menu,
-               'title': 'Добавить статью'
-               }
+    context = {'title': 'Добавить статью'}
+
     return render(request, 'animals/add_page.html', context=context)
 
 
 def contact(request):
-    context = {'menu': menu,
-               'title': 'Контакты'
-               }
+    context = {'title': 'Контакты'}
+
     return render(request, 'animals/contact.html', context=context)
 
 
 def login(request):
-    context = {'menu': menu,
-               'title': 'Авторизация'
-               }
+    context = {'title': 'Авторизация'}
+
     return render(request, 'animals/login.html', context=context)
 
 
@@ -61,7 +49,6 @@ def show_category(request, cat_id):
         # raise Http404()
 
     context = {'posts': posts,
-               'menu': menu,
                'title': f'Отображение по категориям - {posts[0].cat}',
                'cat_selected': cat_id}
 
