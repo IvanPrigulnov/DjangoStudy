@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from .models import *
 
@@ -37,12 +37,21 @@ def login(request):
     return render(request, 'animals/login.html', context=context)
 
 
-def show_post(request, post_id):
-    return HttpResponse(f'Текст статьи с id= {post_id}')
+def show_post(request, post_slug):
+    post = get_object_or_404(Animals, slug=post_slug)
+
+    context = {
+        'post': post,
+        'title': post.title,
+        'cat_selected': post.cat_id
+    }
+
+    return render(request, 'animals/post.html', context=context)
 
 
-def show_category(request, cat_id):
-    posts = Animals.objects.filter(cat_id=cat_id)
+def show_category(request, cat_slug):
+    cat = Category.objects.filter(slug=cat_slug)
+    posts = Animals.objects.filter(cat_id=cat[0].id)
 
     if len(posts) == 0:
         return HttpResponse('Скоро тут будет что-то интересное!')
@@ -50,7 +59,7 @@ def show_category(request, cat_id):
 
     context = {'posts': posts,
                'title': f'Отображение по категориям - {posts[0].cat}',
-               'cat_selected': cat_id}
+               'cat_selected': cat_slug}
 
     return render(request, 'animals/index.html', context=context)
 
