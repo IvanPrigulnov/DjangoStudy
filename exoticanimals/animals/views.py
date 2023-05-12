@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404
+
+from .forms import *
 from .models import *
 
 
@@ -20,7 +22,8 @@ def about(request):
 
 
 def add_page(request):
-    context = {'title': 'Добавить статью'}
+    form = AddPostForm()
+    context = {'form': form, 'title': 'Добавить статью'}
 
     return render(request, 'animals/add_page.html', context=context)
 
